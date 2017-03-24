@@ -10,8 +10,10 @@
     <title><%= current_page.data.title || "Untitled" %></title>
 
     <%= stylesheet_link_tag "app" %>
-    <script src="bower_components/tether/dist/css/tether.css"></script>
-
+    <link href="bower_components/tether/dist/css/tether.css" rel="stylesheet">
+    <!-- DELETE BELOW WHEN START NEW SITE -->
+    <link href="stylesheets/carousel.css" rel="stylesheet">
+    <!-- DELETE AOBVE WHEN START NEW SITE -->
   </head>
 
   <body class="<%= page_classes %>">
@@ -174,9 +176,13 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <%= javascript_include_tag "vendor", "index" %>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/tether/dist/js/tether.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <% if development? %>
+    <script src="bower_components/holderjs/holder.min.js"></script>
+    <% end %>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
   </body>
 </html>
