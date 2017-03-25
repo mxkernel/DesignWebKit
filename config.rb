@@ -20,7 +20,9 @@ page '/*.txt', layout: false
 
 # Reload the browser automatically whenever files change
 configure :development do
-  activate :livereload
+  activate :livereload,
+    :no_swf => true,
+    :ignore => [/.bower_components\//]
 end
 
 ###
@@ -42,3 +44,9 @@ configure :build do
   # Minify Javascript on build
   activate :minify_javascript
 end
+
+activate :external_pipeline,
+  name: :webpack,
+  command: build? ? 'webpack --bail' : 'webpack --watch -d',
+  source: ".tmp/dist",
+  latency: 1
