@@ -40,48 +40,6 @@
 // Carousel
 // Close
 // Code
-
-@mixin _assert-ascending($map, $map-name) {
-  $prev-key: null;
-  $prev-num: null;
-  @each $key, $num in $map {
-    @if $prev-num == null {
-      // Do nothing
-    } @else if not comparable($prev-num, $num) {
-      @warn "Potentially invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} whose unit makes it incomparable to #{$prev-num}, the value of the previous key '#{$prev-key}' !";
-    } @else if $prev-num >= $num {
-      @warn "Invalid value for #{$map-name}: This map must be in ascending order, but key '#{$key}' has value #{$num} which isn't greater than #{$prev-num}, the value of the previous key '#{$prev-key}' !";
-    }
-    $prev-key: $key;
-    $prev-num: $num;
-  }
-}
-
-// Replace `$search` with `$replace` in `$string`
-// @author Hugo Giraudel
-// @param {String} $string - Initial string
-// @param {String} $search - Substring to replace
-// @param {String} $replace ('') - New value
-// @return {String} - Updated string
-@function str-replace($string, $search, $replace: "") {
-  $index: str-index($string, $search);
-
-  @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
-  }
-
-  @return $string;
-}
-
-@mixin _assert-starts-at-zero($map) {
-  $values: map-values($map);
-  $first-value: nth($values, 1);
-  @if $first-value != 0 {
-    @warn "First breakpoint in `$grid-breakpoints` must start at 0, but starts at #{$first-value}.";
-  }
-}
-
-
 // General variable structure
 //
 // Variable format should follow the `$component-modifier-state-property` order.
@@ -112,29 +70,37 @@ $gray-lightest:             #f7f7f9 !default;
 
 // Reassign color vars to semantic color scheme
 $brand-primary:             #E68858 !default;
+$brand-dark:                #D3642C !default;
+$brand-light:               #FFBA97 !default;
+// $brand-lighter:              #eceeef !default;
+// $brand-lightest:             #f7f7f9 !default;
+
+$accent-primary:             #E68858 !default;
+$accent-dark:                #D3642C !default;
+$accent-light:               #FFBA97 !default;
+$accent-lighter:             #eceeef !default;
+$accent-lightest:            #f7f7f9 !default;
+
+
 $brand-success:             $brand-primary !default;
 $brand-info:                $brand-primary !default;
 $brand-warning:             $brand-primary !default;
 $brand-danger:              $brand-primary !default;
-$brand-inverse:             $brand-primary !default;
+$brand-inverse:             transparent !default;
 
-$brand-dark:                 #D3642C !default;
-$brand:                      $brand-primary !default;
-$brand-light:                #FFBA97 !default;
-// $brand-lighter:              #eceeef !default;
-// $brand-lightest:             #f7f7f9 !default;
+
 
 // Options
 //
 // Quickly modify global styling by enabling or disabling optional features.
 
-$enable-rounded:            true !default;
-$enable-shadows:            ture !default;
-$enable-gradients:          ture !default;
+$enable-rounded:            false !default;
+$enable-shadows:            false !default;
+$enable-gradients:          false !default;
 $enable-transitions:        true !default;
 $enable-hover-media-query:  ture !default;
 $enable-grid-classes:       ture !default;
-$enable-print-styles:       ture !default;
+$enable-print-styles:       false !default;
 
 
 // Spacing
@@ -199,7 +165,7 @@ $inverse-color: $gray-lighter !default;
 $link-color:            $brand-primary !default;
 $link-decoration:       none !default;
 $link-hover-color:      darken($link-color, 15%) !default;
-$link-hover-decoration: underline !default;
+$link-hover-decoration: none !default;
 
 
 // Grid breakpoints
@@ -236,7 +202,7 @@ $container-max-widths: (
 // Set the number of columns and specify the width of the gutters.
 
 $grid-columns:               12 !default;
-$grid-gutter-width-base:     30px !default;
+$grid-gutter-width-base:     60px !default;
 $grid-gutter-widths: (
   xs: $grid-gutter-width-base,
   sm: $grid-gutter-width-base,
@@ -249,7 +215,7 @@ $grid-gutter-widths: (
 //
 // Font, line-height, and color for body text, headings, and more.
 
-$font-family-sans-serif: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$font-family-sans-serif: ”Lato“, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
 $font-family-serif:      Georgia, "Times New Roman", Times, serif !default;
 $font-family-monospace:  Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
 $font-family-base:       $font-family-sans-serif !default;
@@ -259,23 +225,23 @@ $font-size-lg:   1.25rem !default;
 $font-size-sm:   .875rem !default;
 $font-size-xs:   .75rem !default;
 
-$font-weight-normal: normal !default;
-$font-weight-bold: bold !default;
+$font-weight-normal: 300 !default;
+$font-weight-bold: 300 !default;
 
 $font-weight-base: $font-weight-normal !default;
-$line-height-base: 1.5 !default;
+$line-height-base: 1.618 !default;
 
-$font-size-h1: 2.5rem !default;
-$font-size-h2: 2rem !default;
-$font-size-h3: 1.75rem !default;
-$font-size-h4: 1.5rem !default;
-$font-size-h5: 1.25rem !default;
-$font-size-h6: 1rem !default;
+$font-size-h1: 60px !default;
+$font-size-h2: 40px !default;
+$font-size-h3: 24px !default;
+$font-size-h4: 20px !default;
+$font-size-h5: 16px !default;
+$font-size-h6: 14px !default;
 
 $headings-margin-bottom: ($spacer / 2) !default;
 $headings-font-family:   inherit !default;
-$headings-font-weight:   500 !default;
-$headings-line-height:   1.1 !default;
+$headings-font-weight:   inherit !default;
+$headings-line-height:   1.41 !default;
 $headings-color:         inherit !default;
 
 $display1-size: 6rem !default;
@@ -292,7 +258,7 @@ $display-line-height: $headings-line-height !default;
 $lead-font-size:   1.25rem !default;
 $lead-font-weight: 300 !default;
 
-$small-font-size: 80% !default;
+$small-font-size: 75% !default;
 
 $text-muted: $gray-light !default;
 
@@ -320,12 +286,12 @@ $list-inline-padding: 5px !default;
 //
 // Define common padding and border radius sizes and more.
 
-$line-height-lg:         (4 / 3) !default;
-$line-height-sm:         1.5 !default;
+$line-height-lg:         1.41 !default;
+$line-height-sm:         1.618 !default;
 
-$border-radius:          .25rem !default;
-$border-radius-lg:       .3rem !default;
-$border-radius-sm:       .2rem !default;
+$border-radius:          5px !default;
+$border-radius-lg:       5px !default;
+$border-radius-sm:       5px !default;
 
 $component-active-color: $white !default;
 $component-active-bg:    $brand-primary !default;
@@ -364,7 +330,7 @@ $table-border-color:            $gray-lighter !default;
 //
 // For each of Bootstrap's buttons, define text, background and border color.
 
-$btn-padding-x:                  1rem !default;
+$btn-padding-x:                  1.2rem !default;
 $btn-padding-y:                  .5rem !default;
 $btn-line-height:                1.25 !default;
 $btn-font-weight:                $font-weight-normal !default;
@@ -372,13 +338,13 @@ $btn-box-shadow:                 inset 0 1px 0 rgba($white,.15), 0 1px 1px rgba(
 $btn-focus-box-shadow:           0 0 0 2px rgba($brand-primary, .25) !default;
 $btn-active-box-shadow:          inset 0 3px 5px rgba($black,.125) !default;
 
-$btn-primary-color:              $white !default;
-$btn-primary-bg:                 $brand-primary !default;
-$btn-primary-border:             $btn-primary-bg !default;
+$btn-primary-color:              $gray !default;
+$btn-primary-bg:                 $brand-light !default;
+$btn-primary-border:             $gray !default;
 
-$btn-secondary-color:            $gray-dark !default;
+$btn-secondary-color:            $gray !default;
 $btn-secondary-bg:               $white !default;
-$btn-secondary-border:           #ccc !default;
+$btn-secondary-border:           $gray !default;
 
 $btn-info-color:                 $white !default;
 $btn-info-bg:                    $brand-info !default;
@@ -593,6 +559,8 @@ $dropdown-header-color:          $gray-light !default;
 // Warning: Avoid customizing these values. They're used for a bird's eye view
 // of components dependent on the z-axis and are designed to all work together.
 
+$zindex-navbar-bg:          970 !default;
+$zindex-gallery:            980 !default;
 $zindex-dropdown-backdrop:  990 !default;
 $zindex-navbar:             1000 !default;
 $zindex-dropdown:           1000 !default;
@@ -617,10 +585,10 @@ $navbar-toggler-padding-y:           .25rem !default;
 $navbar-toggler-font-size:           $font-size-lg !default;
 $navbar-toggler-border-radius:       $btn-border-radius !default;
 
-$navbar-inverse-color:                 rgba($white,.5) !default;
-$navbar-inverse-hover-color:           rgba($white,.75) !default;
-$navbar-inverse-active-color:          rgba($white,1) !default;
-$navbar-inverse-disabled-color:        rgba($white,.25) !default;
+$navbar-inverse-color:                 $gray !default;
+$navbar-inverse-hover-color:           $gray-light !default;
+$navbar-inverse-active-color:          $gray !default;
+$navbar-inverse-disabled-color:        $gray-light !default;
 $navbar-inverse-toggler-bg: str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-inverse-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E"), "#", "%23") !default;
 $navbar-inverse-toggler-border:        rgba($white,.1) !default;
 
@@ -735,8 +703,8 @@ $card-columns-margin:       $card-spacer-y !default;
 // Tooltips
 
 $tooltip-max-width:           200px !default;
-$tooltip-color:               $white !default;
-$tooltip-bg:                  $black !default;
+$tooltip-color:               $black !default;
+$tooltip-bg:                  $brand-light !default;
 $tooltip-opacity:             .9 !default;
 $tooltip-padding-y:           3px !default;
 $tooltip-padding-x:           8px !default;
